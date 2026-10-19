@@ -1,4 +1,4 @@
--- Spaced Breakout Dark Nights — clean-room implementation, MIT.
+-- SB Pitch-Black Nights — clean-room implementation, MIT.
 -- Makes nights completely dark by forcing min_brightness to 0 on every surface.
 -- Visual only: does not touch solar_power_multiplier or day length.
 
