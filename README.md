@@ -11,3 +11,5 @@ Works on Nauvis, planets and space platforms. Mods with their own lighting (like
 Compatible with other mods. Exception: not tested against other darkness mods that swap LUT tables — if you run two, the last loaded one wins.
 
 MIT license, do whatever you want with it.
+
+This branch (`factorio-2.1`) is the 2.1 line, published as version 2.0.0. Main branch stays on 2.0.
