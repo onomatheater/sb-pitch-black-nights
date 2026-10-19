@@ -1,14 +1,9 @@
 # SB Pitch-Black Nights
 
-Pitch-black nights on all surfaces (Nauvis, planets, platforms). Flashlight and lamps still work. Clean-room implementation, MIT. No solar changes, visuals only.
+Nights in Factorio are too bright — you can see half the map at midnight without a single lamp. This mod fixes that: at night it's pitch black unless you bring light.
 
-## How it works
+Flashlight, lamps, fires and car headlights all work as usual. Solar panels and day length are untouched, it's visuals only.
 
-- Data stage (`data.lua`): the vanilla night color LUT (`lut-night.png`, 0.45–0.55 window) is swapped for a pure-black one. Day entries are byte-identical to vanilla.
-- Runtime (`control.lua`): `min_brightness = 0` always; at deep night `brightness_visual_weights` are forced to 0 and restored by day (other mods' day visuals untouched).
+Works on Nauvis, planets and space platforms. Mods with their own lighting (like Cerys) keep theirs.
 
-## Portal upload
-
-1. Take `sb-pitch-black-nights_<version>.zip` from the release (zip contains the `sb-pitch-black-nights/` folder, not loose files)
-2. Upload at https://mods.factorio.com/mod/sb-pitch-black-nights (or new mod page)
-3. Factorio version 2.0, category Tweaks, tag Environment
+MIT license, do whatever you want with it.
