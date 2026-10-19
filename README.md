@@ -6,4 +6,6 @@ Flashlight, lamps, fires and car headlights all work as usual. Solar panels and 
 
 Works on Nauvis, planets and space platforms. Mods with their own lighting (like Cerys) keep theirs.
 
+Compatible with other mods. Exception: not tested against other darkness mods that swap LUT tables — if you run two, the last loaded one wins.
+
 MIT license, do whatever you want with it.
