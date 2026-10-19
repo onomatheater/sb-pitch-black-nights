@@ -1,0 +1,13 @@
+{
+  "name": "spaced-breakout-dark-nights",
+  "version": "1.0.0",
+  "title": "Spaced Breakout Dark Nights",
+  "author": "onomatheater",
+  "contact": "https://github.com/onomatheater/spaced-breakout-launcher",
+  "homepage": "https://github.com/onomatheater/spaced-breakout-launcher",
+  "description": "Completely dark nights on all surfaces (Nauvis, planets, platforms). Clean-room implementation, MIT. No solar changes, visuals only.",
+  "factorio_version": "2.0",
+  "dependencies": [
+    "base >= 2.0.0"
+  ]
+}
