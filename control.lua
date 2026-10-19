@@ -1,13 +1,48 @@
 -- SB Pitch-Black Nights — clean-room implementation, MIT.
--- Makes nights completely dark by forcing min_brightness to 0 on every surface.
--- Visual only: does not touch solar_power_multiplier or day length.
+-- Goal: pitch-black nights where there is no light, flashlight/lamps still work.
+-- Method: min_brightness = 0 always; at deep night also scale
+-- brightness_visual_weights to 0 (multiplier on the night render).
+-- Day visuals of other mods (e.g. Cerys frozen day) are never touched:
+-- we only override while darkness is high and restore the previous
+-- weights when it gets light again.
 
-local TARGET_BRIGHTNESS = 0
+local NIGHT_DARKNESS = 0.85 -- full override at/above this darkness
+local DAY_DARKNESS = 0.75 -- restore below this darkness (hysteresis)
+
+local function get_weights(surface)
+  local w = surface.brightness_visual_weights
+  if type(w) == "table" then
+    return { w[1] or w.r or 1, w[2] or w.g or 1, w[3] or w.b or 1 }
+  end
+  return { 1, 1, 1 }
+end
 
 local function apply(surface)
-  if surface and surface.valid then
-    surface.min_brightness = TARGET_BRIGHTNESS
+  if not surface or not surface.valid then return end
+  if surface.min_brightness ~= 0 then
+    surface.min_brightness = 0
   end
+
+  local darkness = 0
+  pcall(function() darkness = surface.darkness or 0 end)
+
+  storage.sbpb = storage.sbpb or {}
+  local saved = storage.sbpb[surface.index]
+
+  if darkness >= NIGHT_DARKNESS then
+    if not saved then
+      storage.sbpb[surface.index] = { weights = get_weights(surface) }
+    end
+    surface.brightness_visual_weights = { 0, 0, 0 }
+  elseif darkness <= DAY_DARKNESS then
+    if saved then
+      pcall(function()
+        surface.brightness_visual_weights = saved.weights
+      end)
+      storage.sbpb[surface.index] = nil
+    end
+  end
+  -- between thresholds: leave as-is (no flicker)
 end
 
 local function apply_all()
@@ -16,8 +51,15 @@ local function apply_all()
   end
 end
 
-script.on_init(apply_all)
-script.on_configuration_changed(apply_all)
+script.on_init(function()
+  storage.sbpb = storage.sbpb or {}
+  apply_all()
+end)
+
+script.on_configuration_changed(function()
+  storage.sbpb = storage.sbpb or {}
+  apply_all()
+end)
 
 script.on_event(defines.events.on_surface_created, function(e)
   local s = game.surfaces[e.surface_index]
@@ -25,8 +67,8 @@ script.on_event(defines.events.on_surface_created, function(e)
 end)
 
 script.on_event(defines.events.on_tick, function(e)
-  -- re-assert every 10s in case another mod/planet script resets brightness
-  if e.tick % 600 == 0 then
+  -- every second: cheap (a few surfaces), catches day/night transitions
+  if e.tick % 60 == 0 then
     apply_all()
   end
 end)
