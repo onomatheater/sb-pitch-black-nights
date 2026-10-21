@@ -1,4 +1,4 @@
--- SB Pitch-Black Nights — clean-room implementation, MIT.
+-- SB Pitch-Black Nights, MIT.
 -- Goal: pitch-black nights where there is no light, flashlight/lamps still work.
 -- Data stage (data.lua) swaps the vanilla night color LUT for a pure-black one.
 -- Runtime below is belt-and-braces: min_brightness = 0 always, and at deep
